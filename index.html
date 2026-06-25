@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0e141d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Shintaro Mortgage">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>Mortgage Calculator · MJ Pastor Realty × Movement Mortgage</title>
+<meta name="description" content="Estimate your monthly mortgage or refinance payment — with property tax, insurance, HOA &amp; PMI. Your agent: Shintaro Higashi, MJ Pastor Realty. Financing by Robert A. Castro Sr., Movement Mortgage (NMLS #66194).">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MJ Pastor Realty">
+<meta property="og:title" content="Shintaro Higashi · Mortgage Calculator | MJ Pastor Realty">
+<meta property="og:description" content="Estimate your monthly payment — purchase &amp; refinance, with taxes, insurance &amp; PMI. Your agent: Shintaro Higashi, MJ Pastor Realty.">
+<meta property="og:url" content="https://themortgagemaster01-eng.github.io/ShintaroHigashiMortgageCalculator/">
+<meta property="og:image" content="https://themortgagemaster01-eng.github.io/ShintaroHigashiMortgageCalculator/og-cover2.jpg">
+<meta property="og:image:secure_url" content="https://themortgagemaster01-eng.github.io/ShintaroHigashiMortgageCalculator/og-cover2.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Shintaro Higashi, MJ Pastor Realty — Mortgage Calculator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shintaro Higashi · Mortgage Calculator | MJ Pastor Realty">
+<meta name="twitter:description" content="Estimate your monthly payment — purchase &amp; refinance, with taxes, insurance &amp; PMI. Your agent: Shintaro Higashi, MJ Pastor Realty.">
+<meta name="twitter:image" content="https://themortgagemaster01-eng.github.io/ShintaroHigashiMortgageCalculator/og-cover2.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg0:#070a0f;--baby:#bcdcf5;--baby-mid:#8cbce6;--baby-deep:#5a96cc;
+    --grey:#8893a4;--grey-soft:#c7d0dc;
+    --line:rgba(140,188,230,0.22);--line-bright:rgba(188,220,245,0.40);
+    --glass:rgba(255,255,255,0.055);--glass-hi:rgba(255,255,255,0.10);
+    --pi:#6fa8d6;--ins:#7fc7b6;--tax:#e08c9a;--hoa:#e0c084;--pmi:#b89cdb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    min-height:100vh;color:#eaf1f8;position:relative;overflow-x:hidden;background:var(--bg0);
+    display:flex;flex-direction:column;align-items:center;padding:34px 16px 56px;}
+  /* PHOTO BACKGROUND */
+  body::before{content:"";position:fixed;inset:-10px;z-index:-3;background-attachment:fixed;
+    background:url('background.jpg') center/cover no-repeat;}
+  body::after{content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(ellipse 70% 60% at 12% 8%, rgba(40,90,160,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 92% 18%, rgba(60,110,180,0.10) 0%, transparent 50%),
+      linear-gradient(160deg,rgba(7,10,15,0.48) 0%,rgba(10,16,26,0.34) 45%,rgba(7,10,15,0.58) 100%);}
+  .stage{width:100%;max-width:940px;display:flex;flex-direction:column;align-items:center}
+
+  .agent-bar{width:100%;background:linear-gradient(135deg,var(--glass-hi),var(--glass));
+    backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);
+    border:1px solid var(--line);border-radius:24px;padding:18px 24px;display:flex;align-items:center;gap:22px;
+    box-shadow:0 10px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.10);margin-bottom:22px;position:relative;overflow:hidden;}
+  .agent-bar::before{content:"";position:absolute;top:-40%;right:-10%;width:240px;height:240px;
+    background:radial-gradient(circle,rgba(140,188,230,0.18),transparent 70%);pointer-events:none;}
+  .agent-photo{width:70px;height:70px;border-radius:18px;flex-shrink:0;overflow:hidden;
+    border:1px solid var(--line-bright);background:#1b2330;box-shadow:0 6px 20px rgba(0,0,0,0.45);}
+  .agent-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+  .agent-meta .eyebrow{font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--baby-mid);font-weight:600;margin-bottom:3px}
+  .agent-meta h1{font-family:'Sora',sans-serif;font-size:21px;font-weight:800;letter-spacing:-.4px;color:#fff;line-height:1}
+  .agent-meta .firm{font-size:12.5px;color:var(--grey-soft);margin-top:5px;font-weight:500}
+  .agent-meta .firm b{color:var(--baby);font-weight:700}
+  .agent-contact{margin-left:auto;text-align:right;font-size:12.5px;color:var(--grey);line-height:1.7;padding-top:30px}
+  .agent-contact a{color:var(--baby);text-decoration:none;font-weight:600;transition:color .15s}
+  .agent-contact a:hover{color:#fff}
+
+  /* MODE TABS */
+  .mode-tabs{display:flex;gap:8px;width:100%;max-width:340px;margin:0 auto 20px;
+    background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid var(--line);border-radius:16px;padding:5px}
+  .mode-tabs button{flex:1;padding:11px 0;border:none;border-radius:12px;cursor:pointer;
+    background:none;color:var(--grey-soft);font-family:'Sora',sans-serif;font-weight:700;font-size:14px;transition:all .2s}
+  .mode-tabs button.on{background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));color:#fff;box-shadow:0 6px 18px rgba(90,150,204,0.45)}
+
+  .calc{width:100%;display:grid;grid-template-columns:1.04fr 0.96fr;border-radius:32px;overflow:hidden;
+    box-shadow:0 30px 90px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);border:1px solid var(--line);}
+  .inputs{background:linear-gradient(150deg,var(--glass-hi),var(--glass));
+    backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);padding:32px 30px;}
+  .result{background:
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(90,150,204,0.20), transparent 60%),
+      linear-gradient(165deg,rgba(18,28,44,0.80),rgba(7,10,15,0.88));
+    backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);
+    padding:32px 30px;display:flex;flex-direction:column;border-left:1px solid var(--line);}
+  .sec-label{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--baby);text-transform:uppercase;margin-bottom:4px}
+  .sec-title{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.6px;margin-bottom:22px;color:#fff}
+
+  .field{margin-bottom:20px}
+  .field.small{margin-bottom:16px}
+  .field label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--grey-soft);font-weight:600;margin-bottom:8px;letter-spacing:.2px}
+  .field .pct{font-family:'Sora',sans-serif;color:var(--baby);font-weight:700;font-size:13px}
+  .field label > span:last-child:not(.pct):not(.dp-toggle){color:var(--grey);font-weight:500}
+  .dp-toggle{display:flex;gap:4px;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:9px;padding:2px}
+  .dp-toggle button{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:var(--grey);background:none;border:none;padding:3px 9px;border-radius:7px;cursor:pointer;transition:all .15s}
+  .dp-toggle button.on{background:var(--baby-deep);color:#fff}
+  .input-wrap{display:flex;align-items:center;background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:15px;padding:12px 15px;transition:all .2s;}
+  .input-wrap.sm{padding:10px 14px}
+  .input-wrap:focus-within{border-color:var(--baby-deep);box-shadow:0 0 0 4px rgba(90,150,204,0.18);background:rgba(255,255,255,0.08)}
+  .input-wrap span.cur{color:var(--baby-mid);font-weight:700;margin-right:8px;font-size:16px}
+  .input-wrap input{border:none;background:none;outline:none;font-family:'Sora',sans-serif;font-size:19px;font-weight:700;color:#fff;width:100%}
+  .input-wrap.sm input{font-size:16px}
+  .input-wrap span.suffix{color:var(--baby-mid);font-weight:700;font-size:15px;white-space:nowrap}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:5px;
+    background:linear-gradient(90deg,var(--baby-deep),var(--baby-mid)) no-repeat;background-size:var(--fill,40%) 100%;
+    box-shadow:inset 0 0 0 100px rgba(255,255,255,0.08);margin-top:14px;outline:none;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff,var(--baby) 70%);border:2px solid var(--bg0);cursor:pointer;
+    box-shadow:0 2px 10px rgba(140,188,230,0.7);transition:transform .12s}
+  input[type=range]::-webkit-slider-thumb:active{transform:scale(1.18)}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--baby);border:2px solid var(--bg0);cursor:pointer;box-shadow:0 2px 10px rgba(140,188,230,0.7)}
+
+  .terms{display:flex;gap:9px}
+  .terms button{flex:1;padding:13px 0;border:1px solid var(--line);border-radius:14px;cursor:pointer;
+    background:rgba(255,255,255,0.05);color:var(--grey-soft);font-family:'Sora',sans-serif;font-weight:700;font-size:15px;transition:all .18s}
+  .terms button:hover{border-color:var(--baby-deep);color:#fff}
+  .terms button.active{background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));color:#fff;border-color:transparent;box-shadow:0 6px 20px rgba(90,150,204,0.5)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:560px){.grid3{grid-template-columns:1fr 1fr}}
+  .divider{height:1px;background:var(--line);margin:6px 0 18px}
+  .group-label{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--baby-mid);font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .group-label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .credit-select{display:flex;gap:6px;flex-wrap:wrap}
+  .credit-select button{flex:1;min-width:62px;padding:9px 4px;border:1px solid var(--line);border-radius:11px;cursor:pointer;
+    background:rgba(255,255,255,0.05);color:var(--grey-soft);font-family:'Sora',sans-serif;font-weight:700;font-size:12px;transition:all .15s}
+  .credit-select button.on{background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));color:#fff;border-color:transparent}
+
+  .donut-wrap{display:flex;justify-content:center;align-items:center;margin:6px 0 24px}
+  .donut{position:relative;width:230px;height:230px}
+  .donut svg circle.seg{transition:stroke-dasharray .6s cubic-bezier(.34,1.3,.4,1),stroke-dashoffset .6s cubic-bezier(.34,1.3,.4,1),stroke-width .15s;cursor:pointer}
+  .donut svg circle.seg:hover{stroke-width:21}
+  .donut svg{transform:rotate(-90deg);filter:drop-shadow(0 4px 16px rgba(0,0,0,0.5))}
+  .donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+  .donut .center .amt{font-family:'Sora',sans-serif;font-size:42px;font-weight:800;letter-spacing:-1.5px;color:#fff;line-height:1;text-shadow:0 2px 24px rgba(140,188,230,0.4)}
+  .donut .center .lbl{font-size:10.5px;color:var(--baby-mid);font-weight:700;margin-top:6px;letter-spacing:2.5px;transition:color .2s}
+
+  .breakdown{background:rgba(255,255,255,0.05);border:1px solid var(--line);border-radius:22px;padding:6px 22px;margin-top:auto}
+  .row{display:flex;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);transition:padding-left .15s}
+  .row:last-child{border-bottom:none}
+  .row:hover{padding-left:4px}
+  .row.hidden{display:none}
+  .dot{width:10px;height:10px;border-radius:50%;margin-right:13px;flex-shrink:0;box-shadow:0 0 10px currentColor}
+  .row .name{font-size:13px;color:var(--grey-soft);font-weight:600}
+  .row .val{margin-left:auto;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#fff}
+
+  .pmi-note{font-size:11px;color:var(--grey);margin-top:12px;line-height:1.5;padding:10px 14px;background:rgba(184,156,219,0.08);border:1px solid rgba(184,156,219,0.25);border-radius:12px}
+  .pmi-note b{color:var(--pmi)}
+
+
+  .lender{width:100%;margin-top:22px}
+  .lender .label{font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--baby-mid);font-weight:600;text-align:center;margin-bottom:12px}
+  .lender a.ad{display:block;border-radius:26px;overflow:hidden;text-decoration:none;border:1px solid var(--line-bright);position:relative;
+    box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.12);
+    transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s;background:#fff;max-width:520px;margin:0 auto;}
+  .lender a.ad:hover{transform:translateY(-4px);box-shadow:0 24px 70px rgba(90,150,204,0.4), inset 0 1px 0 rgba(255,255,255,0.12)}
+  .lender a.ad img{display:block;width:100%;height:auto}
+  .lender a.ad .hint{position:absolute;bottom:0;left:0;right:0;padding:12px;text-align:center;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:#fff;letter-spacing:.3px;
+    background:linear-gradient(to top,rgba(10,15,23,0.92),rgba(10,15,23,0));opacity:0;transition:opacity .25s}
+  .lender a.ad:hover .hint{opacity:1}
+
+
+
+  /* EXTRA PAYMENT */
+  .extra-card{margin-top:14px;background:linear-gradient(135deg,rgba(127,199,182,0.10),rgba(255,255,255,0.04));
+    border:1px solid rgba(127,199,182,0.30);border-radius:18px;padding:18px 20px}
+  .extra-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+  .extra-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff}
+  .extra-amt{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--ins)}
+  .extra-card input[type=range]{background:linear-gradient(90deg,#7fc7b6,#a9e0d2) no-repeat;background-size:var(--fill,0%) 100%;box-shadow:inset 0 0 0 100px rgba(255,255,255,0.08)}
+  .extra-card input[type=range]::-webkit-slider-thumb{background:radial-gradient(circle at 35% 30%,#fff,#7fc7b6 70%);box-shadow:0 2px 10px rgba(127,199,182,0.7)}
+  .extra-card input[type=range]::-moz-range-thumb{background:#7fc7b6}
+  .extra-results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .extra-stat{text-align:center;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:13px;padding:12px 6px}
+  .es-k{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:5px}
+  .es-v{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:#fff}
+  .es-v.save{color:var(--ins)}
+
+
+
+  /* BRAND BAR */
+  .brand-bar{width:100%;max-width:940px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:0 4px}
+  .brand-logo{height:46px;width:auto;filter:drop-shadow(0 2px 10px rgba(0,0,0,0.5))}
+  .brand-tag{font-family:'Sora',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--baby-mid)}
+  @media(max-width:560px){.brand-logo{height:38px}.brand-tag{font-size:10px}}
+
+
+
+
+  .header-logo{flex-shrink:0;display:flex;align-items:center;padding-left:18px;margin-left:4px;border-left:1px solid var(--line)}
+  .header-logo img{height:52px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))}
+  @media(max-width:700px){.header-logo{border-left:none;padding-left:0;margin-left:0;margin-top:10px;width:100%;justify-content:flex-start}.header-logo img{height:42px}}
+
+
+  .fixed-logo{position:fixed;top:18px;right:84px;z-index:50;display:block;
+    background:rgba(14,20,29,0.55);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);
+    border:1px solid var(--line);border-radius:14px;padding:8px 14px;
+    box-shadow:0 6px 24px rgba(0,0,0,0.45);transition:transform .18s, box-shadow .18s}
+  .fixed-logo:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(90,150,204,0.4)}
+  .fixed-logo img{height:38px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4))}
+  @media(max-width:560px){.fixed-logo{top:96px;right:16px;padding:6px 10px}.fixed-logo img{height:28px}}
+
+
+  .box-logo{position:absolute;top:14px;right:18px;z-index:3;display:block;line-height:0}
+  .box-logo img{height:41.4px;width:auto;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.45));opacity:.96;transition:opacity .15s}
+  .box-logo:hover img{opacity:1}
+  @media(max-width:700px){.box-logo{top:12px;right:12px}.box-logo img{height:33.1px}}
+
+
+  .install-banner{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:60;
+    width:calc(100% - 28px);max-width:520px;display:flex;align-items:center;gap:12px;
+    background:rgba(14,20,29,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--line-bright);border-radius:16px;padding:12px 14px;
+    box-shadow:0 12px 40px rgba(0,0,0,0.55)}
+  .install-banner.hide{display:none}
+  .ib-text{font-size:13px;color:var(--grey-soft);line-height:1.4;flex:1}
+  .ib-text b{color:#fff;font-family:'Sora',sans-serif}
+  .ib-btn{background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));border:none;color:#fff;
+    font-family:'Sora',sans-serif;font-weight:700;font-size:13px;padding:9px 16px;border-radius:11px;cursor:pointer;white-space:nowrap}
+  .ib-x{background:none;border:none;color:var(--grey);font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
+  /* ADD-TO-HOMESCREEN MODAL */
+  .install-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(5,8,13,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .install-modal.show{display:flex}
+  .im-card{width:100%;max-width:400px;background:linear-gradient(165deg,rgba(18,28,44,0.97),rgba(10,16,26,0.98));
+    border:1px solid var(--line-bright);border-radius:24px;padding:26px 22px 20px;position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6);animation:imPop .35s cubic-bezier(.2,.8,.3,1)}
+  @keyframes imPop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+  .im-x{position:absolute;top:11px;right:14px;background:none;border:none;color:var(--grey);font-size:26px;line-height:1;cursor:pointer}
+  .im-ico{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:2px auto 12px;
+    background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));box-shadow:0 8px 22px rgba(90,150,204,0.45)}
+  .im-ico svg{width:28px;height:28px;fill:#fff}
+  .im-title{font-family:'Sora',sans-serif;font-weight:800;font-size:19px;text-align:center;color:#fff;margin-bottom:5px}
+  .im-sub{text-align:center;font-size:13px;color:var(--grey-soft);margin-bottom:18px;line-height:1.45}
+  .im-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+  .im-step{display:flex;align-items:center;gap:12px}
+  .im-num{width:28px;height:28px;flex:none;border-radius:50%;background:rgba(140,188,230,0.16);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--baby)}
+  .im-step span{font-size:14px;color:var(--grey-soft);line-height:1.4}
+  .im-step b{color:#fff;font-weight:600}
+  .im-glyph{display:inline-flex;vertical-align:-3px}
+  .im-glyph svg{width:16px;height:16px;fill:var(--baby)}
+  .im-btn{display:block;width:100%;text-align:center;background:linear-gradient(135deg,var(--baby-deep),var(--baby-mid));
+    border:none;color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;padding:13px;border-radius:14px;cursor:pointer;
+    box-shadow:0 8px 22px rgba(90,150,204,0.4)}
+  .im-btn.ghost{background:none;box-shadow:none;color:var(--grey-soft);font-weight:600;margin-top:4px;padding:10px}
+  @media print{.install-modal{display:none!important}}
+  @media print{.install-banner{display:none!important}}
+
+  /* SONYMA */
+  .sonyma{width:100%;max-width:940px;margin-top:22px;display:flex;align-items:center;gap:18px;
+    text-decoration:none;color:inherit;
+    background:linear-gradient(135deg,rgba(90,150,204,0.16),var(--glass));
+    backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
+    border:1px solid var(--line-bright);border-radius:22px;padding:22px 26px;
+    box-shadow:0 10px 44px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.10);
+    transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s;}
+  .sonyma:hover{transform:translateY(-3px);border-color:var(--baby);box-shadow:0 18px 56px rgba(90,150,204,0.35), inset 0 1px 0 rgba(255,255,255,0.12)}
+  .sonyma-icon{width:84px;height:84px;border-radius:18px;flex-shrink:0;background:#fff;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;padding:11px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35)}
+  .sonyma-icon img{width:100%;height:100%;object-fit:contain}
+
+  .sonyma-rates{display:flex;flex-wrap:wrap;gap:9px;margin-top:11px}
+  .rate-chip{font-size:14px;color:var(--grey-soft);background:rgba(255,255,255,0.06);border:1px solid var(--line);
+    border-radius:10px;padding:6px 13px;font-weight:600}
+  .rate-chip b{font-family:'Sora',sans-serif;color:var(--baby);font-weight:800;margin-right:3px}
+  .sonyma-eyebrow{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--baby-mid);font-weight:700;margin-bottom:5px}
+  .sonyma-title{font-family:'Sora',sans-serif;font-size:21px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.2}
+  .sonyma-sub{font-size:14.5px;color:var(--grey-soft);margin-top:7px;line-height:1.4}
+  .sonyma-arrow{margin-left:auto;font-family:'Sora',sans-serif;font-size:30px;color:var(--baby);font-weight:700;transition:transform .22s}
+  .sonyma:hover .sonyma-arrow{transform:translateX(4px)}
+  @media(max-width:560px){.sonyma{flex-wrap:wrap}.sonyma-arrow{display:none}}
+
+
+  /* PRINT */
+  @media print{
+    @page{size:letter;margin:0.5in}
+    body{background:#fff!important;color:#111!important;padding:0;display:block}
+    body::before,body::after{display:none!important}
+    .brand-tag{color:#555!important}
+    .brand-logo{filter:none!important}
+    .box-logo img{filter:none!important}
+    .mode-tabs,input[type=range],.dp-toggle,.lender .hint{display:none!important}
+    .stage{max-width:100%}
+    .calc{grid-template-columns:1fr 1fr;border:1px solid #ccc!important;box-shadow:none!important}
+    .inputs,.result{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:#111!important;border-color:#ddd!important}
+    .agent-bar,.sonyma{background:#f5f7fa!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1px solid #ddd!important;box-shadow:none!important}
+    .sec-title,.agent-meta h1,.donut .center .amt,.row .val,.stat .v,.es-v{color:#111!important;text-shadow:none!important}
+    .sec-label,.agent-meta .role,.field .pct{color:#2c6da3!important}
+    .agent-contact,.row .name,.es-k,.stat .k{color:#444!important}
+    .input-wrap{background:#fff!important;border:1px solid #ccc!important}
+    .input-wrap input{color:#111!important}
+    .breakdown,.stat,.amort-table{background:#fff!important}
+    .lender a.ad{box-shadow:none!important;border:1px solid #ddd!important}
+    .disclaimer{color:#666!important}
+  }
+
+  .disclaimer{max-width:700px;font-size:10.5px;color:var(--grey);line-height:1.6;margin-top:22px;text-align:center;padding:0 8px;opacity:.8}
+
+  @media(max-width:700px){
+    .calc{grid-template-columns:1fr}
+    .result{border-left:none;border-top:1px solid var(--line)}
+    .agent-bar{flex-wrap:wrap}
+    .agent-contact{margin-left:0;text-align:left;width:100%;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;margin-top:6px}
+    .terms button{padding:15px 0}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="install-banner" id="installBanner">
+  <div class="ib-text"><b>Add to your phone:</b> <span id="ibHow">tap Share, then "Add to Home Screen"</span></div>
+  <button class="ib-btn" id="ibInstall" style="display:none">Install</button>
+  <button class="ib-x" id="ibClose" aria-label="Dismiss">&times;</button>
+</div>
+<div class="install-modal" id="installModal" role="dialog" aria-modal="true" aria-label="Add to Home Screen">
+  <div class="im-card">
+    <button class="im-x" id="imClose" aria-label="Close">&times;</button>
+    <div class="im-ico"><svg viewBox="0 0 24 24"><path d="M12 2a1 1 0 0 1 1 1v9.59l2.3-2.3a1 1 0 1 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.42l2.3 2.3V3a1 1 0 0 1 1-1zM5 16a1 1 0 0 1 1 1v2h12v-2a1 1 0 1 1 2 0v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/></svg></div>
+    <div class="im-title">Add to your Home Screen</div>
+    <div class="im-sub" id="imSub">Keep this calculator one tap away — it opens like an app.</div>
+    <div class="im-steps" id="imSteps"></div>
+    <button class="im-btn" id="imInstall" style="display:none">Install app</button>
+    <button class="im-btn ghost" id="imGot">Got it</button>
+  </div>
+</div>
+<div class="stage">
+
+  <div class="agent-bar">
+    <a class="box-logo" href="https://maryjanepastorrealty.com" target="_blank" rel="noopener"><img src="mjp-logo.svg" alt="MJ Pastor Realty"></a>
+    <div class="agent-photo"><img src="https://mjpastorrealty.com/wp-content/uploads/2026/02/TeamPhoto_ShintaroHigashi.jpg" alt="Shintaro Higashi"></div>
+    <div class="agent-meta">
+      <div class="eyebrow">Your Agent</div>
+      <h1>Shintaro Higashi</h1>
+      <div class="firm"><b>MJ Pastor Realty</b> · Licensed Real Estate Salesperson · Hartsdale, NY</div>
+    </div>
+    <div class="agent-contact">
+      Mobile: <a href="tel:9146464267">914-646-4267</a><br>
+      <a href="mailto:shintaro@mjpastorrealty.com">shintaro@mjpastorrealty.com</a><br>
+      <a href="https://maryjanepastorrealty.com" target="_blank" rel="noopener">maryjanepastorrealty.com &rarr;</a>
+    </div>
+  </div>
+
+  <div class="mode-tabs" id="modeTabs">
+    <button data-mode="purchase" class="on">Purchase</button>
+    <button data-mode="refi">Refinance</button>
+  </div>
+
+  <div class="calc">
+    <div class="inputs">
+      <div class="sec-label" id="modeLabel">Estimate</div>
+      <div class="sec-title" id="modeTitle">Calculate your mortgage</div>
+
+      <!-- PURCHASE FIELDS -->
+      <div id="purchaseFields">
+        <div class="field">
+          <label>Home price</label>
+          <div class="input-wrap"><span class="cur">$</span><input type="text" id="homePrice" value="700,000" inputmode="numeric"></div>
+          <input type="range" id="homeRange" min="100000" max="2000000" step="1000" value="700000">
+        </div>
+        <div class="field">
+          <label>Down payment <span class="dp-toggle"><button id="dpDollar" class="on">$</button><button id="dpPercent">%</button></span></label>
+          <div class="input-wrap"><span class="cur" id="dpCur">$</span><input type="text" id="downPay" value="140,000" inputmode="numeric"><span class="suffix" id="dpPctView">20.00%</span></div>
+          <input type="range" id="downRange" min="0" max="1000000" step="500" value="140000">
+        </div>
+      </div>
+
+      <!-- REFI FIELDS -->
+      <div id="refiFields" style="display:none">
+        <div class="field">
+          <label>Property value</label>
+          <div class="input-wrap"><span class="cur">$</span><input type="text" id="propValue" value="700,000" inputmode="numeric"></div>
+          <input type="range" id="propRange" min="100000" max="2000000" step="1000" value="700000">
+        </div>
+        <div class="field">
+          <label>New loan amount <span class="pct" id="ltvView">80% LTV</span></label>
+          <div class="input-wrap"><span class="cur">$</span><input type="text" id="loanAmt" value="560,000" inputmode="numeric"></div>
+          <input type="range" id="loanRange" min="50000" max="2000000" step="1000" value="560000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Length of loan <span>years</span></label>
+        <div class="terms" id="terms">
+          <button data-yr="30" class="active">30</button>
+          <button data-yr="20">20</button>
+          <button data-yr="15">15</button>
+          <button data-yr="10">10</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Interest rate <span class="pct" id="rateLbl">6.00%</span></label>
+        <div class="input-wrap"><input type="text" id="rate" value="6" inputmode="decimal"><span class="suffix">%</span></div>
+        <input type="range" id="rateRange" min="2" max="12" step="0.01" value="6">
+      </div>
+
+      <div class="divider"></div>
+      <div class="group-label">Costs &amp; escrow</div>
+      <div class="grid3">
+        <div class="field small">
+          <label>Property tax <span>/yr</span></label>
+          <div class="input-wrap sm"><span class="cur">$</span><input type="text" id="taxYr" value="12,000" inputmode="numeric"></div>
+        </div>
+        <div class="field small">
+          <label>Insurance <span>/yr</span></label>
+          <div class="input-wrap sm"><span class="cur">$</span><input type="text" id="insYr" value="2,100" inputmode="numeric"></div>
+        </div>
+        <div class="field small">
+          <label>HOA fees <span>/mo</span></label>
+          <div class="input-wrap sm"><span class="cur">$</span><input type="text" id="hoaMo" value="0" inputmode="numeric"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="sec-label" style="color:var(--baby-mid)">Monthly payment</div>
+      <div class="donut-wrap">
+        <div class="donut">
+          <svg width="230" height="230" viewBox="0 0 230 230">
+            <circle cx="115" cy="115" r="92" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="17"/>
+            <circle id="segPI"  class="seg" cx="115" cy="115" r="92" fill="none" stroke="#6fa8d6" stroke-width="17" stroke-linecap="round" data-name="Principal & interest"></circle>
+            <circle id="segPMI" class="seg" cx="115" cy="115" r="92" fill="none" stroke="#b89cdb" stroke-width="17" stroke-linecap="round" data-name="PMI"></circle>
+            <circle id="segINS" class="seg" cx="115" cy="115" r="92" fill="none" stroke="#7fc7b6" stroke-width="17" stroke-linecap="round" data-name="Insurance"></circle>
+            <circle id="segTAX" class="seg" cx="115" cy="115" r="92" fill="none" stroke="#e08c9a" stroke-width="17" stroke-linecap="round" data-name="Property tax"></circle>
+            <circle id="segHOA" class="seg" cx="115" cy="115" r="92" fill="none" stroke="#e0c084" stroke-width="17" stroke-linecap="round" data-name="HOA fees"></circle>
+          </svg>
+          <div class="center"><div class="amt" id="totalPay">$4,077</div><div class="lbl" id="totalLbl">PER MONTH</div></div>
+        </div>
+      </div>
+      <div class="breakdown">
+        <div class="row"><span class="dot" style="background:var(--pi);color:var(--pi)"></span><span class="name">Principal &amp; interest</span><span class="val" id="piVal">$3,558</span></div>
+        <div class="row" id="rowPMI"><span class="dot" style="background:var(--pmi);color:var(--pmi)"></span><span class="name">PMI (mortgage insurance)</span><span class="val" id="pmiVal">$0</span></div>
+        <div class="row"><span class="dot" style="background:var(--ins);color:var(--ins)"></span><span class="name">Homeowner&#39;s insurance</span><span class="val" id="insVal">$67</span></div>
+        <div class="row"><span class="dot" style="background:var(--tax);color:var(--tax)"></span><span class="name">Property tax</span><span class="val" id="taxVal">$402</span></div>
+        <div class="row"><span class="dot" style="background:var(--hoa);color:var(--hoa)"></span><span class="name">HOA fees</span><span class="val" id="hoaVal">$0</span></div>
+      </div>
+
+      <div class="pmi-note" id="pmiNote" style="display:none"></div>
+
+    </div>
+  </div>
+
+  <a class="sonyma" href="https://hcr.ny.gov/current-rates" target="_blank" rel="noopener">
+    <div class="sonyma-icon"><img src="ny-state.png" alt="New York State"></div>
+    <div class="sonyma-text">
+      <div class="sonyma-eyebrow">NY First-Time Buyer</div>
+      <div class="sonyma-title">Check current SONYMA rates &amp; programs</div>
+      <div class="sonyma-rates">
+        <span class="rate-chip"><b>5.70%</b> Achieving the Dream</span>
+        <span class="rate-chip"><b>6.00%</b> Low Interest Rate</span>
+      </div>
+      <div class="sonyma-sub">30-yr fixed · 0 points · up to 97% financing · tap for live official rates</div>
+    </div>
+    <div class="sonyma-arrow">&rarr;</div>
+  </a>
+
+  <div class="lender">
+    <div class="label">Financing by</div>
+    <a class="ad" href="https://movement.com/lo/robert-castro" target="_blank" rel="noopener">
+      <img src="movement-ad.jpg" alt="Robert A. Castro, Sr. Loan Officer — Movement Mortgage. Ready to buy a home? Click here.">
+      <div class="hint">Tap to get pre-approved &rarr;</div>
+    </a>
+  </div>
+
+  <p class="disclaimer">
+    Estimates are for illustrative purposes only and do not constitute a loan commitment, pre-approval, or offer to lend.
+    PMI rates shown are estimates based on loan-to-value and the selected credit tier; actual mortgage insurance, rates, taxes, and insurance vary by lender, program, and borrower.
+    PMI typically applies when the down payment is under 20% and can usually be removed once 20% equity is reached. Refinance figures exclude closing costs.
+    Contact Robert A. Castro Sr. (NMLS #66194), Movement Mortgage, for an accurate, personalized estimate. Equal Housing Lender.
+  </p>
+</div>
+
+<script>
+  const $=id=>document.getElementById(id);
+  const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+  const num=s=>parseFloat(String(s).replace(/[^0-9.]/g,''))||0;
+
+  let state={
+    mode:'purchase',
+    price:700000, down:140000,
+    propValue:700000, loanAmt:560000,
+    years:30, rate:6, dpMode:'dollar',
+    taxYr:12000, insYr:2100, hoaMo:0, credit:'excellent'
+  };
+
+  // PMI annual rate (% of loan) by LTV band and credit tier — estimates
+  function pmiRate(ltv){
+    if(ltv<=80) return 0;
+    // Estimated PMI for excellent credit (760+)
+    if(ltv<=85) return 0.0019;
+    if(ltv<=90) return 0.0023;
+    if(ltv<=95) return 0.0041;
+    return 0.0058;
+  }
+
+  const animState={};
+  function animateTo(el,target){
+    const key=el.id;const start=animState[key]!=null?animState[key]:target;
+    const t0=performance.now(),dur=420;
+    function step(now){const p=Math.min((now-t0)/dur,1);const e=1-Math.pow(1-p,3);
+      el.textContent=fmt(start+(target-start)*e);
+      if(p<1)requestAnimationFrame(step);else animState[key]=target;}
+    animState[key]=start;requestAnimationFrame(step);
+  }
+
+  function loanAndValue(){
+    if(state.mode==='purchase'){
+      return {loan:Math.max(state.price-state.down,0), value:state.price};
+    }
+    return {loan:state.loanAmt, value:state.propValue};
+  }
+
+  function schedule(loan){
+    const r=state.rate/100/12,n=state.years*12;
+    let pi=r>0?loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1):loan/n;
+    let bal=loan,rows=[],spark=[loan],totInt=0;
+    for(let y=1;y<=state.years;y++){
+      let pPaid=0,iPaid=0;
+      for(let m=0;m<12;m++){const i=bal*r;const pr=pi-i;bal-=pr;pPaid+=pr;iPaid+=i;totInt+=i;if(bal<0)bal=0;}
+      rows.push({y,p:pPaid,i:iPaid,bal});spark.push(bal);
+    }
+    return {pi,rows,spark,totInt};
+  }
+
+
+
+
+  function calc(){
+    const {loan,value}=loanAndValue();
+    const ltv=value>0?loan/value*100:0;
+    const {pi,rows,spark,totInt}=schedule(loan);
+    const ins=state.insYr/12, tax=state.taxYr/12, hoa=state.hoaMo;
+    const pmiR=pmiRate(ltv);
+    const pmi=loan*pmiR/12;
+    const total=pi+pmi+ins+tax+hoa;
+
+    animateTo($('piVal'),pi);animateTo($('pmiVal'),pmi);
+    animateTo($('insVal'),ins);animateTo($('taxVal'),tax);animateTo($('hoaVal'),hoa);
+    animateTo($('totalPay'),total);
+
+    // PMI row + note
+    if(pmi>0){
+      $('rowPMI').classList.remove('hidden');$('segPMI').style.display='';
+      $('pmiNote').style.display='';
+      const dropPct=20;
+      $('pmiNote').innerHTML='<b>PMI applies</b> at '+ltv.toFixed(1)+'% LTV (excellent credit, ~'+(pmiR*100).toFixed(2)+'%/yr). Drops off near '+dropPct+'% equity &mdash; reaching it removes about '+fmt(pmi)+'/mo.';
+    } else {
+      $('rowPMI').classList.remove('hidden');$('segPMI').style.display='none';
+      $('pmiNote').style.display='none';
+    }
+
+    // donut
+    const C=2*Math.PI*92;
+    const parts=[['segPI',pi],['segPMI',pmi],['segINS',ins],['segTAX',tax],['segHOA',hoa]];
+    let off=0;parts.forEach(([id,v])=>{const f=total>0?v/total:0;const s=$(id);
+      s.setAttribute('stroke-dasharray',(Math.max(f*C-2,0))+' '+C);
+      s.setAttribute('stroke-dashoffset',-off*C);off+=f;});
+
+    // dp percent / ltv view
+    if(state.mode==='purchase'){
+      const dp=state.price>0?(state.down/state.price*100):0;
+      $('dpPctView').textContent=dp.toFixed(2)+'%';
+    } else {
+      $('ltvView').textContent=ltv.toFixed(0)+'% LTV';
+    }
+
+  }
+
+
+  function fillRange(el){const p=(el.value-el.min)/(el.max-el.min)*100;el.style.setProperty('--fill',p+'%');}
+
+  // donut hover
+  document.querySelectorAll('.donut .seg').forEach(s=>{
+    s.addEventListener('mouseenter',()=>{$('totalLbl').textContent=s.dataset.name.toUpperCase();$('totalLbl').style.color='var(--baby)';});
+    s.addEventListener('mouseleave',()=>{$('totalLbl').textContent='PER MONTH';$('totalLbl').style.color='';});
+  });
+
+  // mode tabs
+  document.querySelectorAll('#modeTabs button').forEach(b=>{b.addEventListener('click',()=>{
+    document.querySelectorAll('#modeTabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    state.mode=b.dataset.mode;
+    if(state.mode==='refi'){
+      $('purchaseFields').style.display='none';$('refiFields').style.display='';
+      $('modeLabel').textContent='Refinance';$('modeTitle').textContent='Estimate your refinance';
+    } else {
+      $('purchaseFields').style.display='';$('refiFields').style.display='none';
+      $('modeLabel').textContent='Estimate';$('modeTitle').textContent='Calculate your mortgage';
+    }
+    calc();
+  });});
+
+  // purchase inputs
+  $('homePrice').addEventListener('input',e=>{state.price=num(e.target.value);$('homeRange').value=Math.min(state.price,2000000);fillRange($('homeRange'));calc();});
+  $('homePrice').addEventListener('blur',e=>{e.target.value=state.price.toLocaleString('en-US');});
+  $('homeRange').addEventListener('input',e=>{state.price=+e.target.value;$('homePrice').value=state.price.toLocaleString('en-US');fillRange(e.target);calc();});
+
+  function syncDownField(){
+    if(state.dpMode==='dollar'){$('dpCur').style.display='';$('dpPctView').style.display='';$('downPay').value=state.down.toLocaleString('en-US');}
+    else{$('dpCur').style.display='none';$('dpPctView').style.display='none';const pct=state.price>0?state.down/state.price*100:0;$('downPay').value=pct.toFixed(2);}
+  }
+  $('downPay').addEventListener('input',e=>{
+    if(state.dpMode==='dollar'){state.down=num(e.target.value);}else{state.down=state.price*num(e.target.value)/100;}
+    $('downRange').value=Math.min(state.down,1000000);fillRange($('downRange'));calc();});
+  $('downPay').addEventListener('blur',syncDownField);
+  $('downRange').addEventListener('input',e=>{state.down=+e.target.value;syncDownField();fillRange(e.target);calc();});
+  $('dpDollar').addEventListener('click',()=>{state.dpMode='dollar';$('dpDollar').classList.add('on');$('dpPercent').classList.remove('on');syncDownField();});
+  $('dpPercent').addEventListener('click',()=>{state.dpMode='percent';$('dpPercent').classList.add('on');$('dpDollar').classList.remove('on');syncDownField();});
+
+  // refi inputs
+  $('propValue').addEventListener('input',e=>{state.propValue=num(e.target.value);$('propRange').value=Math.min(state.propValue,2000000);fillRange($('propRange'));calc();});
+  $('propValue').addEventListener('blur',e=>{e.target.value=state.propValue.toLocaleString('en-US');});
+  $('propRange').addEventListener('input',e=>{state.propValue=+e.target.value;$('propValue').value=state.propValue.toLocaleString('en-US');fillRange(e.target);calc();});
+  $('loanAmt').addEventListener('input',e=>{state.loanAmt=num(e.target.value);$('loanRange').value=Math.min(state.loanAmt,2000000);fillRange($('loanRange'));calc();});
+  $('loanAmt').addEventListener('blur',e=>{e.target.value=state.loanAmt.toLocaleString('en-US');});
+  $('loanRange').addEventListener('input',e=>{state.loanAmt=+e.target.value;$('loanAmt').value=state.loanAmt.toLocaleString('en-US');fillRange(e.target);calc();});
+
+  // term, rate
+  document.querySelectorAll('#terms button').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('#terms button').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.years=+b.dataset.yr;calc();});});
+  $('rate').addEventListener('input',e=>{state.rate=num(e.target.value);$('rateLbl').textContent=state.rate.toFixed(2)+'%';$('rateRange').value=Math.min(Math.max(state.rate,2),12);fillRange($('rateRange'));calc();});
+  $('rate').addEventListener('blur',e=>{e.target.value=state.rate;});
+  $('rateRange').addEventListener('input',e=>{state.rate=+e.target.value;$('rate').value=state.rate;$('rateLbl').textContent=state.rate.toFixed(2)+'%';fillRange(e.target);calc();});
+
+  // costs
+  $('taxYr').addEventListener('input',e=>{state.taxYr=num(e.target.value);calc();});
+  $('taxYr').addEventListener('blur',e=>{e.target.value=state.taxYr.toLocaleString('en-US');});
+  $('insYr').addEventListener('input',e=>{state.insYr=num(e.target.value);calc();});
+  $('insYr').addEventListener('blur',e=>{e.target.value=state.insYr.toLocaleString('en-US');});
+  $('hoaMo').addEventListener('input',e=>{state.hoaMo=num(e.target.value);calc();});
+  $('hoaMo').addEventListener('blur',e=>{e.target.value=state.hoaMo.toLocaleString('en-US');});
+
+
+  // ---- PWA install + service worker ----
+  if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+  (function(){
+    const banner=document.getElementById('installBanner');
+    const how=document.getElementById('ibHow');
+    const btn=document.getElementById('ibInstall');
+    const x=document.getElementById('ibClose');
+    const isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+    if(isStandalone){banner.classList.add('hide');return;}
+    if(localStorage.getItem('mjpInstallDismissed')==='1'){banner.classList.add('hide');}
+    const ua=navigator.userAgent||'';
+    const isIOS=/iphone|ipad|ipod/i.test(ua);
+    const isAndroid=/android/i.test(ua);
+    if(isIOS){how.textContent='tap the Share icon, then "Add to Home Screen"';}
+    else if(isAndroid){how.textContent='tap the menu (\u22ee), then "Add to Home screen"';}
+    else{how.textContent='open this on your phone, then add it to your home screen';}
+    let deferred=null;
+    window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferred=e;btn.style.display='';how.textContent='one tap to install this as an app';});
+    btn.addEventListener('click',async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;banner.classList.add('hide');}});
+    x.addEventListener('click',()=>{banner.classList.add('hide');localStorage.setItem('mjpInstallDismissed','1');});
+
+    /* First-open Add-to-Home-Screen guide */
+    const modal=document.getElementById('installModal');
+    const steps=document.getElementById('imSteps');
+    const imSub=document.getElementById('imSub');
+    const imInstall=document.getElementById('imInstall');
+    const shareGlyph='<span class="im-glyph"><svg viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 .7.3l3 3a1 1 0 1 1-1.4 1.4L13 6.41V14a1 1 0 1 1-2 0V6.41L9.7 7.7A1 1 0 1 1 8.3 6.3l3-3A1 1 0 0 1 12 3zM6 10a1 1 0 0 1 1 1v8h10v-8a1 1 0 1 1 2 0v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z"/></svg></span>';
+    const step=(n,html)=>'<div class="im-step"><div class="im-num">'+n+'</div><span>'+html+'</span></div>';
+    if(isIOS){
+      imSub.textContent='Keep this calculator one tap away \u2014 it opens like an app, no App Store needed.';
+      steps.innerHTML=step(1,'Tap the <b>Share</b> button '+shareGlyph+' at the bottom of Safari')+step(2,'Scroll down and tap <b>\u201CAdd to Home Screen\u201D</b>')+step(3,'Tap <b>Add</b> \u2014 done!');
+    } else if(isAndroid){
+      imSub.textContent='Keep this calculator one tap away \u2014 it opens like an app, no Play Store needed.';
+      steps.innerHTML=step(1,'Tap the <b>\u22EE</b> menu (top-right of Chrome)')+step(2,'Tap <b>\u201CAdd to Home screen\u201D</b> (or \u201CInstall app\u201D)')+step(3,'Tap <b>Add</b> \u2014 done!');
+    } else {
+      imSub.textContent='Open this page on your phone to add it to your home screen.';
+      steps.innerHTML=step(1,'Open this link in your <b>phone\u2019s browser</b>')+step(2,'iPhone: <b>Share</b> '+shareGlyph+' \u2192 <b>Add to Home Screen</b>')+step(3,'Android: <b>\u22EE</b> menu \u2192 <b>Add to Home screen</b>');
+    }
+    const showModal=()=>modal.classList.add('show');
+    const hideModal=()=>{modal.classList.remove('show');localStorage.setItem('mjpModalSeen','1');};
+    document.getElementById('imClose').addEventListener('click',hideModal);
+    document.getElementById('imGot').addEventListener('click',hideModal);
+    modal.addEventListener('click',(e)=>{if(e.target===modal)hideModal();});
+    const ibtext=document.querySelector('.ib-text');
+    if(ibtext){ibtext.style.cursor='pointer';ibtext.addEventListener('click',showModal);}
+    window.addEventListener('beforeinstallprompt',()=>{imInstall.style.display='';});
+    imInstall.addEventListener('click',async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;hideModal();banner.classList.add('hide');}});
+    if(!localStorage.getItem('mjpModalSeen')){setTimeout(showModal,650);}
+  })();
+
+  ['homeRange','downRange','propRange','loanRange','rateRange'].forEach(id=>fillRange($(id)));
+  calc();
+</script>
+</body>
+</html>
